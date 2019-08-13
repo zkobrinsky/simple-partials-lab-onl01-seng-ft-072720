@@ -1,14 +1,14 @@
-require "rails_helper"
+ require "rails_helper"
 
 RSpec.describe "show_view" do
   let(:classroom) { Classroom.create(course_name: 'Math', semester: "Spring #{Time.now.year}") }
   let(:oldest_student) { Student.create(name: "Grandpa",
                         hometown: Faker::Address.city,
-                        birthday: Faker::Date.between(30.years.ago, 29.years.ago)) }
+                        birthday: Faker::Date.between(from: 30.years.ago, to: 29.years.ago)) }
 
   before do
     5.times do
-      Student.create(name: Faker::Name.name, hometown: Faker::Address.city, birthday: Faker::Date.between(25.years.ago, 18.years.ago))
+    student = Student.create(name: 'Bobby', hometown: Faker::Address.city, birthday: Faker::Date.between(from: 25.years.ago, to: 18.years.ago))
     end
     Student.all.each do |student|
       ClassroomStudent.create(student: student, classroom: classroom)
@@ -46,3 +46,4 @@ RSpec.describe "show_view" do
     expect(rendered).to render_template(:partial => "students/_student")
   end
 end
+ 
